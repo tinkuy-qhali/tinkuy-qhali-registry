@@ -27,7 +27,8 @@
         "verified_at": {"type": "string", "format": "date-time"}}}
     },
     "license_note": {"type": "string"},
-    "dvc_file": {"type": "string", "description": "Path of the .dvc file in the source repo"}
+    "dvc_file": {"type": "string", "description": "Path of the .dvc file in the source repo"},
+    "dvc_md5": {"type": "string", "pattern": "^[a-f0-9]{32}$", "description": "DVC 3 cache address (files/md5/<2>/<30>); sha256 remains the identity"}
   },
   "additionalProperties": false
 }
