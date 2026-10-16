@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tinkuy-qhali.github.io/registry/pointer.schema.json",
+  "title": "tinkuy-qhali raw data pointer",
+  "description": "One pointer per raw file. Bytes are resolved by sha256; locations are hints, the hash is the identity.",
+  "type": "object",
+  "required": ["pointer_id", "source", "edition", "module", "filename", "sha256", "size_bytes", "retrieved_at", "origin_url", "terms_url", "freeze_level", "locations", "license_note"],
+  "properties": {
+    "pointer_id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "source": {"type": "string", "description": "Producer + survey, e.g. inei-endes"},
+    "edition": {"type": "string", "description": "Year or release, e.g. 2024"},
+    "module": {"type": "string", "description": "Module/table id as the producer names it, e.g. RECH0"},
+    "filename": {"type": "string"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "size_bytes": {"type": "integer", "minimum": 0},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "origin_url": {"type": "string", "format": "uri"},
+    "terms_url": {"type": "string", "format": "uri"},
+    "terms_snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "freeze_level": {"type": "string", "enum": ["public-mirror-doi", "restricted-mirror-doi", "recipe-and-hash", "cite-only"], "description": "Level from the freeze matrix (Phase 1 item 6); provisional until the matrix is applied"},
+    "freeze_level_status": {"type": "string", "enum": ["provisional", "confirmed"]},
+    "locations": {
+      "type": "array", "minItems": 1,
+      "items": {"type": "object", "required": ["kind", "uri"], "properties": {
+        "kind": {"type": "string", "enum": ["dvc-remote", "zenodo", "dataverse", "osf", "huggingface", "institutional", "origin", "cold-storage"]},
+        "uri": {"type": "string"},
+        "verified_at": {"type": "string", "format": "date-time"}}}
+    },
+    "license_note": {"type": "string"},
+    "dvc_file": {"type": "string", "description": "Path of the .dvc file in the source repo"}
+  },
+  "additionalProperties": false
+}
